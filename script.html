@@ -1,0 +1,67 @@
+<html>
+    <link rel="stylesheet" href="./style.css">
+    <input type="button" value="START" onclick="role()">
+    <input type="button" value="STOP!" onclick="stop()">
+    <div id="slot">9999999</div>
+    <div id="div1">履歴表示
+
+    </div>
+    <script>
+        let CONNUM = 0;
+        let NOWSLOTNUM;
+        let drumaudio = new Audio('./ドラム.mp3');
+        let cymbalaudio = new Audio('./シンバル.mp3');
+        
+        function output(){
+            let leftnum;
+            let rightnum;
+            role();
+            let leftary = ['1290', '1220', '1444'];//学籍番号の左4桁の数字の配列。
+            leftnum = leftary[Math.floor(Math.random() * 3)];//配列をランダムに出す
+            rightnum = Math.floor(Math.random() * 999);//右3桁をランダムに出す。
+            let text = String(leftnum) + String(rightnum);
+            
+            window.setTimeout(append,300,text);
+            console.log(text);
+                    
+        }
+
+        function append(number){
+            console.log(number)
+            const div = document.getElementById("div1");
+            const p = document.createElement("p");
+            const outputtext = document.createTextNode(number);
+            p.appendChild(outputtext);
+            div.appendChild(p); 
+
+        }
+        function role(){
+            
+            let slotdiv = document.getElementById('slot')
+            let leftary = ['1290', '1220', '1444'];//学籍番号の左4桁の数字の配列。
+            leftnum = leftary[Math.floor(Math.random() * 3)];//配列をランダムに出す
+            rightnum = Math.floor(Math.random() * 999);//右3桁をランダムに出す。
+            let slotnum = String(leftnum) + String(rightnum);
+            drumaudio.play();
+            cymbalaudio.pause();
+            cymbalaudio.currentTime = 0;
+            if(CONNUM == 0){
+                slotdiv.innerHTML = slotnum;
+                window.setTimeout("role()",80);
+                NOWSLOTNUM = slotnum;
+            }else{
+                drumaudio.pause();
+                drumaudio.currentTime = 0;
+                cymbalaudio.play();
+                window.setTimeout(append,300,NOWSLOTNUM);
+                console.log(NOWSLOTNUM);
+                CONNUM = 0;
+ 
+            }
+        }
+        function stop(){
+            console.log("stop");
+            CONNUM = 1;
+        }
+        </script>
+</html>
