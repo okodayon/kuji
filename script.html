@@ -7,7 +7,7 @@
     </form>
     
     <div id=backslot>
-        <div id="slot">limitの入力をしてください<br>(デフォは10)</div>
+        <div id="slot">limitの入力をしてください<br>Enterでもstart,stop<br>切り替えられる</div>
     </div>
     <div id="button">
         <input type="button" value="START" onclick="start()" id="startbtn" class="btn">
@@ -43,6 +43,16 @@
         }
 
 
+        window.document.onkeydown = function (ev) {
+            if (ev.key === 'Enter') {
+                if(startbtn.disabled){
+                    stopbtn.click();
+                }else if(stopbtn.disabled){
+                    startbtn.click();
+                }
+            }
+        }
+
         //数字がだぶらないようにする関数
         function checknum(number){
             while(-1 != numhis.indexOf(number)){
@@ -55,10 +65,6 @@
         function append(number){
             console.log(number)
             const div = document.getElementById("div1");
-            //const p = document.createElement("p");
-            //const outputtext = document.createTextNode(number);
-            //p.appendChild(outputtext);
-            //div.appendChild(p); 
             div.insertAdjacentHTML('beforebegin',"<p id=\"div1\">" + number + "</p>")
 
         }
