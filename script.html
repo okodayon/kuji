@@ -1,10 +1,15 @@
 <html>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="./style.css">
+    <form id="form">
+        <input type="number" id="input_limit" value=''\>
+        <input type="submit" id="submit_limit" onclick="submitlimit()" value="limit決定"\> 
+    </form>
+    
     <div id=backslot>
-        <div id="slot">999</div>
+        <div id="slot">limitの入力をしてください<br>(デフォは10)</div>
     </div>
-    <div id="form">
+    <div id="button">
         <input type="button" value="START" onclick="start()" id="startbtn" class="btn">
         <input type="button" value="STOP!" onclick="stop()" id="stopbtn" class="btn">
     </div>
@@ -20,11 +25,22 @@
         let startbtn = document.getElementById("startbtn");//スタートボタン
         let stopbtn = document.getElementById("stopbtn");//ストップボタン
         stopbtn.disabled = true;//ストップボタンを押せないように
+        startbtn.disabled = true;//ストップボタンを押せないように
         let slotdiv = document.getElementById('slot')//数字が変わる場所のdivを取得
         let slotnum;//変わる数字
         let numhis = [];//数字の履歴
         let not = 0;//ルーレットを回した回数
-        let limit = 10;//ルーレットで表示する数字の上限
+        let limit = 10;//(デフォルトは10にしておく)ルーレットで表示する数字の上限
+
+
+        //limitをformで決められるように
+        function submitlimit(){
+            limit = Number(document.getElementById("input_limit").value);//textから取得
+            let delform = document.getElementById("form");//formを消すため
+            delform.remove();
+            slotdiv.innerHTML = limit
+            startbtn.disabled = false;//startボタンを押せるように
+        }
 
 
         //数字がだぶらないようにする関数
