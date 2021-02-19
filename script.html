@@ -52,7 +52,7 @@
             let slotdiv = document.getElementById('slot')
             let leftary = ['1290', '1220', '1444'];//学籍番号の左4桁の数字の配列。
             leftnum = leftary[Math.floor(Math.random() * 3)];//配列をランダムに出す
-            rightnum = Math.floor(Math.random() * 9);//右3桁をランダムに出す。
+            rightnum = Math.floor(Math.random() * 999);//右3桁をランダムに出す。
 
             if(1 == String(rightnum).length){
                 rightnum = '00' + rightnum;
