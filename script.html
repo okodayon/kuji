@@ -2,7 +2,7 @@
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="./style.css">
     <div id=backslot>
-        <div id="slot">9999999</div>
+        <div id="slot">999</div>
     </div>
     <div id="form">
         <input type="button" value="START" onclick="start()" id="startbtn" class="btn">
@@ -12,33 +12,30 @@
 
     </div>
     <script>
-        let CONNUM = 0;
-        let NOWSLOTNUM;
-        const drumaudio = new Audio('./ドラム.mp3');
-        const cymbalaudio = new Audio('./シンバル.mp3');
+        let CONNUM = 0;//roleを停止するかの判断フラグ
+        let NOWSLOTNUM;//roleが多く行われた場合にずれが生じるのを回避
+        const drumaudio = new Audio('./ドラム.mp3');//音源
+        const cymbalaudio = new Audio('./シンバル.mp3');//音源
         
-        let startbtn = document.getElementById("startbtn");
-        let stopbtn = document.getElementById("stopbtn");
-        stopbtn.disabled = true;
-        let slotdiv = document.getElementById('slot')
-        const leftary = ['1290', '1220', '1444'];//学籍番号の左4桁の数字の配列。
+        let startbtn = document.getElementById("startbtn");//スタートボタン
+        let stopbtn = document.getElementById("stopbtn");//ストップボタン
+        stopbtn.disabled = true;//ストップボタンを押せないように
+        let slotdiv = document.getElementById('slot')//数字が変わる場所のdivを取得
+        let slotnum;//変わる数字
+        let numhis = [];//数字の履歴
+        let not = 0;//ルーレットを回した回数
+        let limit = 10;//ルーレットで表示する数字の上限
 
-        /*
-        function output(){
-            let leftnum;
-            let rightnum;
-            role();
-            let leftary = ['1290', '1220', '1444'];//学籍番号の左4桁の数字の配列。
-            leftnum = leftary[Math.floor(Math.random() * 3)];//配列をランダムに出す
-            rightnum = Math.floor(Math.random() * 999);//右3桁をランダムに出す。
-            let text = String(leftnum) + String(rightnum);
-            
-            window.setTimeout(append,300,text);
-            console.log(text);
-                    
+
+        //数字がだぶらないようにする関数
+        function checknum(number){
+            while(-1 != numhis.indexOf(number)){
+                number = Math.floor(Math.random() * limit + 1);
+            }
+            return number;
         }
-        */
 
+        //数字を履歴に足していく関数
         function append(number){
             console.log(number)
             const div = document.getElementById("div1");
@@ -48,22 +45,23 @@
             div.appendChild(p); 
 
         }
+
+        //startボタンを押されたときの関数
         function start(){
+            if(limit > not){
+                not++;
+            }else{
+                slotdiv.innerHTML = "Limit Over"
+                return;
+            }
             startbtn.disabled = true;
             stopbtn.disabled = false;
             role();
         }
+
+        //実際に数字をランダムで表示する関数
         function role(){
-            leftnum = leftary[Math.floor(Math.random() * 3)];//配列をランダムに出す
-            rightnum = Math.floor(Math.random() * 999);//右3桁をランダムに出す。
-
-            if(1 == String(rightnum).length){
-                rightnum = '00' + rightnum;
-            }else if(2 == String(rightnum).length){
-                rightnum = '0' + rightnum
-            }
-
-            let slotnum = String(leftnum) + String(rightnum);
+            slotnum = Math.floor(Math.random() * limit + 1);//3桁のランダムを表示
             drumaudio.play();
             cymbalaudio.pause();
             cymbalaudio.currentTime = 0;
@@ -72,15 +70,19 @@
                 window.setTimeout("role()",80);
                 NOWSLOTNUM = slotnum;
             }else{
+                NOWSLOTNUM = checknum(NOWSLOTNUM);//ダブり回避
+                slotdiv.innerHTML = NOWSLOTNUM;
                 drumaudio.pause();
                 drumaudio.currentTime = 0;
                 cymbalaudio.play();
                 window.setTimeout(append,300,NOWSLOTNUM);
+                numhis.push(NOWSLOTNUM);
                 console.log(NOWSLOTNUM);
                 CONNUM = 0;
- 
             }
         }
+
+        //stopボタンが押されたときの関数
         function stop(){
             startbtn.disabled = false;
             stopbtn.disabled = true;
