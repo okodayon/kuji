@@ -1,3 +1,10 @@
+html{
+    background-image: url(./background.jpg);
+    background-attachment : fixed;
+    background-size:cover;
+}
+
+
 #div1{
     text-align: center;
 }
@@ -8,7 +15,7 @@
     background-color: black;
     margin-left: 20%;
     margin-right: 20%;
-    margin-top: 10%;
+    margin-top: 20%;
     margin-bottom: 5%;
     font-size: 500%;
 }
