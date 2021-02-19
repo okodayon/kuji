@@ -24,8 +24,10 @@
     color: #000;
     background-color: #fff100;
     border-bottom: 5px solid #ccc100;
-    margin:10%
+    margin:10%;
+    border-radius:1vh;
 }
+
 .btn:hover{
     background-color:#cfc501 ;
     border-bottom: 5px solid #8a8300;
