@@ -8,8 +8,8 @@
         <input type="button" value="START" onclick="start()" id="startbtn" class="btn">
         <input type="button" value="STOP!" onclick="stop()" id="stopbtn" class="btn">
     </div>
-    <div id="div1">履歴表示
-
+    <div id="histop">履歴表示
+        <div id="div1"></div>
     </div>
     <script>
         let CONNUM = 0;//roleを停止するかの判断フラグ
@@ -39,10 +39,11 @@
         function append(number){
             console.log(number)
             const div = document.getElementById("div1");
-            const p = document.createElement("p");
-            const outputtext = document.createTextNode(number);
-            p.appendChild(outputtext);
-            div.appendChild(p); 
+            //const p = document.createElement("p");
+            //const outputtext = document.createTextNode(number);
+            //p.appendChild(outputtext);
+            //div.appendChild(p); 
+            div.insertAdjacentHTML('beforebegin',"<p id=\"div1\">" + number + "</p>")
 
         }
 
