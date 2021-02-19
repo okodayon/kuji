@@ -6,6 +6,28 @@
     text-align: center;
     color: white;
     background-color: black;
-    margin: 30%;
-    font-size: 400%;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    font-size: 500%;
 }
+
+#form{
+    text-align: center;
+}
+
+
+.btn{
+    border: none;
+    font-size: 300%;
+    color: #000;
+    background-color: #fff100;
+    border-bottom: 5px solid #ccc100;
+    margin:10%
+}
+.btn:hover{
+    background-color:#cfc501 ;
+    border-bottom: 5px solid #8a8300;
+}
+
