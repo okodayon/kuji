@@ -1,3 +1,11 @@
 #div1{
     text-align: center;
 }
+
+#backslot{
+    text-align: center;
+    color: white;
+    background-color: black;
+    margin: 30%;
+    font-size: 400%;
+}
