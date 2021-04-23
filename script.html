@@ -38,7 +38,7 @@
             limit = Number(document.getElementById("input_limit").value);//textから取得
             let delform = document.getElementById("form");//formを消すため
             delform.remove();
-            slotdiv.innerHTML = limit
+            slotdiv.innerHTML = 999;
             startbtn.disabled = false;//startボタンを押せるように
         }
 
@@ -67,7 +67,7 @@
         function append(number){
             console.log(number)
             const div = document.getElementById("div1");
-            div.insertAdjacentHTML('beforebegin',"<p id=\"div1\">" + number + "</p>")
+            div.insertAdjacentHTML('beforebegin',"<p id=\"div1\">" + number + "</p>");
 
         }
 
@@ -76,7 +76,7 @@
             if(limit > not){
                 not++;
             }else{
-                slotdiv.innerHTML = "Limit Over"
+                slotdiv.innerHTML = "Limit Over";
                 return;
             }
             startbtn.disabled = true;
