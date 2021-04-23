@@ -1,0 +1,118 @@
+<html>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="./style.css">
+    <form id="form">
+        <input type="number" id="input_limit" value=''\>
+        <input type="submit" id="submit_limit" onclick="submitlimit()" value="limit決定"\> 
+    </form>
+    
+    <div id=backslot>
+        <div id="slot">limitの入力をしてください<br>Enterでもstart,stop<br>切り替えられる</div>
+    </div>
+    <div id="button">
+        <input type="button" value="START" onclick="start()" id="startbtn" class="btn">
+        <input type="button" value="STOP!" onclick="stop()" id="stopbtn" class="btn">
+    </div>
+    <div id="histop">履歴表示
+        <div id="div1"></div>
+    </div>
+    <script>
+        let CONNUM = 0;//roleを停止するかの判断フラグ
+        let NOWSLOTNUM;//roleが多く行われた場合にずれが生じるのを回避
+        const drumaudio = new Audio('./ドラム.mp3');//音源
+        const cymbalaudio = new Audio('./シンバル.mp3');//音源
+        
+        let startbtn = document.getElementById("startbtn");//スタートボタン
+        let stopbtn = document.getElementById("stopbtn");//ストップボタン
+        stopbtn.disabled = true;//ストップボタンを押せないように
+        startbtn.disabled = true;//ストップボタンを押せないように
+        let slotdiv = document.getElementById('slot')//数字が変わる場所のdivを取得
+        let slotnum;//変わる数字
+        let numhis = [];//数字の履歴
+        let not = 0;//ルーレットを回した回数
+        let limit = 10;//(デフォルトは10にしておく)ルーレットで表示する数字の上限
+
+
+        //limitをformで決められるように
+        function submitlimit(){
+            limit = Number(document.getElementById("input_limit").value);//textから取得
+            let delform = document.getElementById("form");//formを消すため
+            delform.remove();
+            slotdiv.innerHTML = 999;
+            startbtn.disabled = false;//startボタンを押せるように
+        }
+
+
+        window.document.onkeydown = function (ev) {
+            if (ev.key === 'Enter') {
+                if(startbtn.disabled){
+                    stopbtn.click();
+                }else if(stopbtn.disabled){
+                    startbtn.click();
+                }
+            }else{
+                return;
+            }
+        }
+
+        //数字がだぶらないようにする関数
+        function checknum(number){
+            while(-1 != numhis.indexOf(number)){
+                number = Math.floor(Math.random() * limit + 1);
+            }
+            return number;
+        }
+
+        //数字を履歴に足していく関数
+        function append(number){
+            console.log(number)
+            const div = document.getElementById("div1");
+            div.insertAdjacentHTML('beforebegin',"<p id=\"div1\">" + number + "</p>");
+
+        }
+
+        //startボタンを押されたときの関数
+        function start(){
+            if(limit > not){
+                not++;
+            }else{
+                slotdiv.innerHTML = "Limit Over";
+                return;
+            }
+            startbtn.disabled = true;
+            stopbtn.disabled = false;
+            role();
+        }
+
+        //実際に数字をランダムで表示する関数
+        function role(){
+            slotnum = Math.floor(Math.random() * limit + 1);//3桁のランダムを表示
+            drumaudio.play();
+            cymbalaudio.pause();
+            cymbalaudio.currentTime = 0;
+            if(CONNUM == 0){
+                slotdiv.innerHTML = slotnum;
+                window.setTimeout("role()",80);
+                NOWSLOTNUM = slotnum;
+            }else{
+                NOWSLOTNUM = checknum(NOWSLOTNUM);//ダブり回避
+                slotdiv.innerHTML = NOWSLOTNUM;
+                drumaudio.pause();
+                drumaudio.currentTime = 0;
+                cymbalaudio.play();
+                window.setTimeout(append,300,NOWSLOTNUM);
+                numhis.push(NOWSLOTNUM);
+                console.log(NOWSLOTNUM);
+                CONNUM = 0;
+            }
+        }
+
+        //stopボタンが押されたときの関数
+        function stop(){
+            startbtn.disabled = false;
+            stopbtn.disabled = true;
+            console.log("stop");
+            CONNUM = 1;
+        }
+        </script>
+</html>
